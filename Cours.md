@@ -1,3 +1,14 @@
+Autres notes :
+
+Slidev : powerpoint en mieux, surtout pour les dev.
+
+Conventional Commits : pour générer des changeLogs -> changement majeurs(qui changent complètement la structure du programme) mineurs et “patchs” 1.1.1
+
+entretiens des mises à jours : 
+lts (long terme) -> 1.6 = 2 ans, sts (standard terme) -> 1.7 = 1 an
+
+fork -> bifurcation du code de base dans un autre projet différent séparé.
+
 # .NET
 
 .NET est un framework de developpement cross-platform et open-source concu par Microsoft.
@@ -197,3 +208,17 @@ les commandes utiles :
 - dotnet test : execute les tests unitaires
 - dotnet publish : publie le projet
 - dotnet pack : cree un package NuGet
+
+Etapes pour la configuration de SQLite avec EF Core:
+- Ajouter le package NuGet Microsoft.EntityFrameworkCore.Sqlite
+- Ajouter le package NuGet Microsoft.EntityFrameworkCore.Design
+- installer les outils de ligne de commande : dotnet tool install -- global dotnet-ef
+- Creer une classe qui herite de DbContext
+- Ajouter une propriete de type DbSet<T> pour chaque entite
+- Ajouter une methode OnConfiguring pour configurer la connexion a la base de donnees
+- Trouver un moyen de specifier le bon chemin pour le fichier de la base de donnees
+- utiliser les commandes de migration pour creer la premiere migration : dotnet ef migrations add
+InitialCreate
+- analyser le code genere par la migration, d'apres vous a quoi cela va servir ?
+- utiliser les commandes de migration pour creer la base de donnees : dotnet ef database update
+- que s'est il passe ?
