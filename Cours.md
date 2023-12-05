@@ -220,5 +220,14 @@ Etapes pour la configuration de SQLite avec EF Core:
 - utiliser les commandes de migration pour creer la premiere migration : dotnet ef migrations add
 InitialCreate
 - analyser le code genere par la migration, d'apres vous a quoi cela va servir ?
+le code va surement servir à créer la bdd car on repère dedans des create table par exemple
 - utiliser les commandes de migration pour creer la base de donnees : dotnet ef database update
 - que s'est il passe ?
+la bdd va etre créée dans le .db
+
+Petit coup de pouce :
+- var currentFolder = Directory.GetCurrentDirectory();
+
+entity framework est un ORM (technique utilisée pour gérer les interactions entre les données d'une base de données relationnelle et les objets utilisés par une application)
+
+convention : mettre devant tous nos champs privés un _underscore_
