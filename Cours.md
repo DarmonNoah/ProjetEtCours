@@ -231,3 +231,5 @@ Petit coup de pouce :
 entity framework est un ORM (technique utilisée pour gérer les interactions entre les données d'une base de données relationnelle et les objets utilisés par une application)
 
 convention : mettre devant tous nos champs privés un _underscore_
+
+ajout des livres dans la bdd et manipulation a l'aide du controleur

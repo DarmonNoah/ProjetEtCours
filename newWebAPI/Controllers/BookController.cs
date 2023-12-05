@@ -10,13 +10,18 @@ public class BookController : ControllerBase
 {
     private readonly AppDbContext _context;
 
-    BookController(AppDbContext context)
+    public BookController(AppDbContext context)
     {
         _context = context;
     }
 
     [HttpGet]
     public async Task<IEnumerable<Book>> Get()
+    {
+        return await _context.Books.ToListAsync();
+    }
+    [HttpPost]
+    public async Task<IEnumerable<Book>> Post()
     {
         return await _context.Books.ToListAsync();
     }
