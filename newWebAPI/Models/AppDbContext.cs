@@ -1,16 +1,16 @@
-using Microsoft<;<entityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace newWebAPI.Models;
 
-public class AppDbContext : AppDbContext
+public class AppDbContext : DbContext
 {
     private const string ConnectionString=@"Server=localhost;Database=BookDb;Trusted_Connection=True;";
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     {
-        optionBuilder.UseSqlServer(ConnectionString);
+        optionBuilder.UseSqlite(ConnectionString);
     }
 
-    public BdSet<Book> Books {get;set}
+    public DbSet<Book> Books {get;set;}
     
 }
