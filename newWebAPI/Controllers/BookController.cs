@@ -70,8 +70,32 @@ public class BookController : ControllerBase
     }
 
     // TODO: PUT: api/Book/[id] creer la route qui permet de mettre a jour un livre existant
-
+    [HttpPut("{id}", Name = nameof(PutBook))]
+    [ProducesResponseType(201, Type = typeof(Book))]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<Book>> PutBook([FromBody] Book book, int id)    {
+        var selectBook = await _context.Books.FindAsync(id);
+        if (selectBook == null)
+        {
+            return BadRequest("Parameter is null");
+        }
+        selectBook.Price=book.Price;
+        
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+    
     // TODO: DELETE: api/Book/[id] creer la route qui permet de supprimer un livre existant
-
-
+    [HttpDelete("{id}", Name = nameof(DeleteBook))]
+    public async Task<ActionResult<Book>> DeleteBook(int id)
+    {
+        var book = await _context.Books.FindAsync(id);
+        if (book == null)
+        {
+            return NotFound();
+        }
+        _context.Books.Remove(book);
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
 }
