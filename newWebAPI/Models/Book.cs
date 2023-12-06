@@ -1,4 +1,4 @@
-namespace newWebAPI;
+namespace newWebAPI.Models;
  
 public class Book
 {
@@ -24,4 +24,3 @@ public class Book
     }
 
 }
-

@@ -70,23 +70,32 @@ public class BookController : ControllerBase
     }
 
     // TODO: PUT: api/Book/[id] creer la route qui permet de mettre a jour un livre existant
-    [HttpPut("{id}", Name = nameof(PutBook))]
-    [ProducesResponseType(201, Type = typeof(Book))]
-    [ProducesResponseType(400)]
-    public async Task<ActionResult<Book>> PutBook([FromBody] Book book, int id)    {
-        var selectBook = await _context.Books.FindAsync(id);
-        if (selectBook == null)
+    // TODO: utilisez des annotations pour valider les donnees entrantes avec ModelState
+    // TODO: utilisez le package AutoMapper pour mapper les donnees de BookUpdateDTO vers Book
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Book>> PutBook(int id, [FromBody] BookUpdateDTO book)
+    {
+        if (id != book.Id)
         {
-            return BadRequest("Parameter is null");
+            return BadRequest();
         }
-        selectBook.Price=book.Price;
-        
+        var selectedBook = await _context.Books.FindAsync(id);
+
+        if (selectedBook == null)
+        {
+            return NotFound();
+        }
+
+        selectedBook.Title = book.Title;
+
+        _context.Entry(book).State = EntityState.Modified;
         await _context.SaveChangesAsync();
-        return Ok();
+        return NoContent();
     }
-    
+
+
+    [HttpDelete("{id}")]
     // TODO: DELETE: api/Book/[id] creer la route qui permet de supprimer un livre existant
-    [HttpDelete("{id}", Name = nameof(DeleteBook))]
     public async Task<ActionResult<Book>> DeleteBook(int id)
     {
         var book = await _context.Books.FindAsync(id);
@@ -96,6 +105,7 @@ public class BookController : ControllerBase
         }
         _context.Books.Remove(book);
         await _context.SaveChangesAsync();
-        return Ok();
+        return NoContent();
     }
+
 }
