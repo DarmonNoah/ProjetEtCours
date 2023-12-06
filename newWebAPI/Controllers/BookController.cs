@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using newWebAPI.Models;
+using newWebAPI.Models.DTOs;
 
 namespace newWebAPI.Controllers;
 
@@ -86,7 +87,7 @@ public class BookController : ControllerBase
             return NotFound();
         }
 
-        selectedBook.Title = book.Title;
+        selectedBook.Price = book.Price;
 
         _context.Entry(book).State = EntityState.Modified;
         await _context.SaveChangesAsync();
@@ -107,5 +108,4 @@ public class BookController : ControllerBase
         await _context.SaveChangesAsync();
         return NoContent();
     }
-
 }
