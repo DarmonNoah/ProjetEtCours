@@ -11,10 +11,12 @@ namespace newWebAPI.Controllers;
 public class BookController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IMapper _mapper;
 
-    public BookController(AppDbContext context)
+    public BookController(AppDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -33,7 +35,7 @@ public class BookController : ControllerBase
         {
             return NotFound();
         }
-
+/*
         var response = new BookDetailDto
         {
             Id = book. Id,
@@ -45,7 +47,7 @@ public class BookController : ControllerBase
             Description = book.Description,
             Remarks = book. Remarks
         }
-
+*/
         return book;
     }
 
