@@ -232,4 +232,4 @@ entity framework est un ORM (technique utilisée pour gérer les interactions en
 
 convention : mettre devant tous nos champs privés un _underscore_
 
-ajout des livres dans la bdd et manipulation a l'aide du controleur
+automapper est utile car il permet de perdre moins de temps et est moins rébarbatif que du "map coding" comme on a pu le voir en "TP"

@@ -34,6 +34,18 @@ public class BookController : ControllerBase
             return NotFound();
         }
 
+        var response = new BookDetailDto
+        {
+            Id = book. Id,
+            Title = book. Title,
+            Author = book. Author,
+            Genre = book. Genre,
+            Price = book.Price,
+            Publishbate = book. PublishDate,
+            Description = book.Description,
+            Remarks = book. Remarks
+        }
+
         return book;
     }
 
