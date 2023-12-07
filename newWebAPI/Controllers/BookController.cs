@@ -92,7 +92,7 @@ public class BookController : ControllerBase
     [HttpPut("UpdatePrice/{id}/{price}")]
     public async Task<ActionResult<Book>> PutBook(int id, float price)
     {
-        if(price == null)
+        if(price == 0)
         {
             return BadRequest();
         }
@@ -106,6 +106,22 @@ public class BookController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("UpdateRemarks/{id}/{remarks}")]
+    public async Task<ActionResult<Book>> PutBook(int id, string remarks)
+    {
+        if(remarks == null)
+        {
+            return BadRequest();
+        }
+        var book2 = await _context.Books.FindAsync(id);
+        if(book2 == null)
+        {
+            return NotFound();
+        }
+        book2.Remarks = remarks;
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 
     [HttpDelete("{id}")]
     // TODO: DELETE: api/Book/[id] creer la route qui permet de supprimer un livre existant
