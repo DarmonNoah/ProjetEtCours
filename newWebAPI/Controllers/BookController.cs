@@ -89,10 +89,10 @@ public class BookController : ControllerBase
     // TODO: PUT: api/Book/[id] creer la route qui permet de mettre a jour un livre existant
     // TODO: utilisez des annotations pour valider les donnees entrantes avec ModelState
     // TODO: utilisez le package AutoMapper pour mapper les donnees de BookUpdateDTO vers Book
-    [HttpPut("{id}/{Price}")]
-    public async Task<ActionResult<Book>> PutBook(int id, [FromBody] BookUpdateDTO book, string price)
+    [HttpPut("UpdatePrice/{id}/{price}")]
+    public async Task<ActionResult<Book>> PutBook(int id, float price)
     {
-        if(book == null)
+        if(price == null)
         {
             return BadRequest();
         }
@@ -101,8 +101,7 @@ public class BookController : ControllerBase
         {
             return NotFound();
         }
-        var bookMap = _mapper.Map<Book>(book);
-        book2.Price = bookMap.Price;
+        book2.Price = price;
         await _context.SaveChangesAsync();
         return NoContent();
     }
