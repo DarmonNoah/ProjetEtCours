@@ -59,7 +59,7 @@ public class BookController : ControllerBase
     [HttpPost]
     [ProducesResponseType(201, Type = typeof(Book))]
     [ProducesResponseType(400)]
-    public async Task<ActionResult<Book>> PostBook([FromBody] Book book)
+    public async Task<ActionResult<BookUpdateDTO>> PostBook([FromBody] BookUpdateDTO book)
     {
         // we check if the parameter is null
         if (book == null)
@@ -68,6 +68,7 @@ public class BookController : ControllerBase
         }
         // we check if the book already exists
         Book? addedBook = await _context.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+        var bookMap = _mapper.Map<Book>(book);
         if (addedBook != null)
         {
             return BadRequest("Book already exists");
@@ -75,14 +76,14 @@ public class BookController : ControllerBase
         else
         {
             // we add the book to the database
-            await _context.Books.AddAsync(book);
+            await _context.Books.AddAsync(bookMap);
             await _context.SaveChangesAsync();
         }
             // we return the book
             return CreatedAtRoute(
                 routeName: nameof(GetBook),
-                routeValues: new { id = book.Id },
-                value: book);
+                routeValues: new { id = bookMap.Id },
+                value: bookMap);
     }
 
     // TODO: PUT: api/Book/[id] creer la route qui permet de mettre a jour un livre existant
