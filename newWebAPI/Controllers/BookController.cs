@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using newWebAPI.Models;
 using newWebAPI.Models.DTOs;
+using AutoMapper;
 
 namespace newWebAPI.Controllers;
 
@@ -20,14 +21,16 @@ public class BookController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Book>> Get()
+    public async Task<ActionResult<IEnumerable<Book>>> Get()
     {
-        return await _context.Books.ToListAsync();
+        var temp = await _context.Books.ToListAsync();
+        var bookMap = _mapper.Map<IEnumerable<BookUpdateDTO>>(temp);
+        return Ok(bookMap);
     }
 
 
     // GET: api/Book/[id]
-    [HttpGet("{id}", Name = nameof(GetBook))]
+    [HttpGet("ById/{id}", Name = nameof(GetBook))]
     public async Task<ActionResult<Book>> GetBook(int id)
     {
         var book = await _context.Books.FindAsync(id);
@@ -35,6 +38,7 @@ public class BookController : ControllerBase
         {
             return NotFound();
         }
+        return book;
 /*
         var response = new BookDetailDto
         {
@@ -48,7 +52,6 @@ public class BookController : ControllerBase
             Remarks = book. Remarks
         }
 */
-        return book;
     }
 
     // POST: api/Book
@@ -74,36 +77,31 @@ public class BookController : ControllerBase
             // we add the book to the database
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
-
+        }
             // we return the book
             return CreatedAtRoute(
                 routeName: nameof(GetBook),
                 routeValues: new { id = book.Id },
                 value: book);
-
-        }
     }
 
     // TODO: PUT: api/Book/[id] creer la route qui permet de mettre a jour un livre existant
     // TODO: utilisez des annotations pour valider les donnees entrantes avec ModelState
     // TODO: utilisez le package AutoMapper pour mapper les donnees de BookUpdateDTO vers Book
-    [HttpPut("{id}")]
-    public async Task<ActionResult<Book>> PutBook(int id, [FromBody] BookUpdateDTO book)
+    [HttpPut("{id}/{Price}")]
+    public async Task<ActionResult<Book>> PutBook(int id, [FromBody] BookUpdateDTO book, string price)
     {
-        if (id != book.Id)
+        if(book == null)
         {
             return BadRequest();
         }
-        var selectedBook = await _context.Books.FindAsync(id);
-
-        if (selectedBook == null)
+        var book2 = await _context.Books.FindAsync(id);
+        if(book2 == null)
         {
             return NotFound();
         }
-
-        selectedBook.Price = book.Price;
-
-        _context.Entry(book).State = EntityState.Modified;
+        var bookMap = _mapper.Map<Book>(book);
+        book2.Price = bookMap.Price;
         await _context.SaveChangesAsync();
         return NoContent();
     }
